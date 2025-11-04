@@ -30,18 +30,19 @@ const Row = ({ item }) => (
   </tr>
 );
 
-const sample = [
+const fallback = [
   { name: "Rina Hartati", department: "Finance", timeIn: "08:58", timeOut: "17:10", status: "hadir" },
   { name: "Ardi Pratama", department: "Engineering", timeIn: "09:12", timeOut: "18:00", status: "terlambat" },
   { name: "Dewi Lestari", department: "Marketing", timeIn: "-", timeOut: "-", status: "alpa" },
   { name: "Bima Saputra", department: "Operations", timeIn: "08:45", timeOut: "17:02", status: "hadir" },
 ];
 
-export default function AttendanceTable() {
+export default function AttendanceTable({ data, title = "Rekap Kehadiran Hari Ini" }) {
+  const rows = data && data.length ? data : fallback;
   return (
     <section className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
       <div className="flex items-center justify-between border-b border-slate-200 px-4 py-3">
-        <h3 className="text-sm font-semibold">Rekap Kehadiran Hari Ini</h3>
+        <h3 className="text-sm font-semibold">{title}</h3>
         <div className="flex gap-2">
           <input
             type="search"
@@ -70,8 +71,8 @@ export default function AttendanceTable() {
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {sample.map((item) => (
-              <Row key={`${item.name}-${item.timeIn}`} item={item} />
+            {rows.map((item, idx) => (
+              <Row key={`${item.name}-${item.timeIn}-${idx}`} item={item} />
             ))}
           </tbody>
         </table>
